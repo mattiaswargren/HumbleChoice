@@ -40,6 +40,8 @@
         td {
             font-weight: 400;
             color: #495057;
+            position: relative;
+            text-align: left;
         }
         .btn {
             display: inline-block;
@@ -51,9 +53,23 @@
             font-size: 12px;
             font-weight: 500;
             transition: background-color 0.2s ease;
+            margin-right: 8px;
         }
         .btn:hover {
             background-color: #0056b3;
+        }
+        .game-list {
+            margin-top: 5px;
+            list-style-type: none;
+            padding-left: 0;
+            font-size: 12px;
+        }
+        .game-list li {
+            background-color: #f1f3f5;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            margin-bottom: 4px;
+            padding: 4px;
         }
         @media (max-width: 768px) {
             table, th, td {
@@ -62,6 +78,9 @@
             .btn {
                 font-size: 11px;
                 padding: 4px 6px;
+            }
+            .game-list li {
+                font-size: 11px;
             }
         }
     </style>
@@ -101,6 +120,70 @@
                             "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
         const tableBody = document.getElementById("linkTable");
 
+        const gamesData = {
+            'december-2019': [],
+            'january-2020': [],
+            'february-2020': [],
+            'march-2020': [],
+            'april-2020': [],
+            'may-2020': [],
+            'june-2020': [],
+            'july-2020': [],
+            'august-2020': [],
+            'september-2020': [],
+            'october-2020': [],
+            'november-2020': [],
+            'december-2020': [],
+            'january-2021': [],
+            'february-2021': [],
+            'march-2021': [],
+            'april-2021': [],
+            'may-2021': [],
+            'june-2021': [],
+            'july-2021': [],
+            'august-2021': [],
+            'september-2021': [],
+            'october-2021': [],
+            'november-2021': [],
+            'december-2021': [],
+            'january-2022': [],
+            'february-2022': [],
+            'march-2022': [],
+            'april-2022': [],
+            'may-2022': [],
+            'june-2022': [],
+            'july-2022': [],
+            'august-2022': [],
+            'september-2022': [],
+            'october-2022': [],
+            'november-2022': [],
+            'december-2022': [],
+            'january-2023': [],
+            'february-2023': [],
+            'march-2023': [],
+            'april-2023': [],
+            'may-2023': [],
+            'june-2023': [],
+            'july-2023': [],
+            'august-2023': [],
+            'september-2023': [],
+            'october-2023': [],
+            'november-2023': [],
+            'december-2023': [],
+            'january-2024': ["Marvel's Midnight Suns Digital+ Edition", "Midnight Suns - Doctor Strange Defenders Skin", "Two Point Campus", "Aragami 2", "OTXO", "Roguebook", "The Red Lantern", "Hell Pie", "Twin Mirror"],
+            'february-2024': ["Life is Strange: True Colors", "Scorn", "Destroy All Humans 2! Reprobed", "Beacon Pines", "There is No Light: Enhanced Edition", "Children of Silentown", "Oaken", "Snowtopia: Ski Resort Builder"],
+            'march-2024': ["Warhammer Age of Sigmar: Realms of Ruin – Ultimate Edition", "Nioh 2 - The Complete Edition", "Saints Row", "Citizen Sleeper", "Black Skylands", "Soulstice", "Afterimage", "Destroyer: The U-Boat Hunter"],
+            'april-2024': ["Victoria 3", "The Callisto Protocol", "HUMANKIND Definitive Edition", "Fashion Police Squad", "Terraformers", "Symphony of War: The Nephilim Saga", "Coromon", "The Excavation of Hob's Barrow"],
+            'may-2024': ["Yakuza: Like a Dragon", "Hi-Fi RUSH", "Steelrising", "Loddlenaut", "King Of The Castle", "Bravery and Greed", "Amanda the Adventurer", "Mediterranea Inferno"],
+            'june-2024': ["Risk of Rain 2", "Knights of Honor II: Sovereign", "LEGO® 2K Drive Awesome Edition", "Warhammer 40,000: Battlesector", "Miasma Chronicles", "Stray Gods: The Roleplaying Musical", "A Guidebook of Babel", "Empyrion - Galactic Survival"],
+            'july-2024': ["A Plague Tale: Requiem", "Ghostrunner 2", "Starship Troopers: Terran Command", "Sticky Business", "Zoeti", "Figment 2: Creed Valley", "Heretic's Fork", "HYPERVIOLENT"],
+            'august-2024': ["Sifu", "High On Life", "Gotham Knights", "BLACKTAIL", "Astral Ascent", "Diluvian Ultra", "Universe For Sale", "This Means Warp"],
+            'september-2024': ["Marvel's Guardians of the Galaxy", "Stranded: Alien Dawn", "Coral Island", "SpongeBob SquarePants: The Cosmic Shake", "Lost Eidolons", "Astrea: Six-Sided Oracles", "InfraSpace", "You Suck at Parking - Complete Edition", "Rue Valley - Alpha Playtest"],
+            'october-2024': ["REMNANT II", "Persona 5 Strikers", "Jusant", "Dome Keeper", "Jack Move", "Station to Station", "Remnant Records", "McPixel 3"],
+            'november-2024': [],
+            'december-2024': [],
+        };
+
         for (let year = currentYear; year >= startYear; year--) {
             const row = document.createElement("tr");
             const yearCell = document.createElement("td");
@@ -121,7 +204,24 @@
                     link.textContent = monthNameShort; // Display shortened month name
                     link.target = "_blank";
                     link.classList.add("btn");
+
+                    // Append the link to the cell
                     cell.appendChild(link);
+
+                    // Add a list of games if available for this month/year
+                    const gameKey = `${monthNameFull}-${year}`;
+                    if (gamesData[gameKey]) {
+                        const gameList = document.createElement("ul");
+                        gameList.classList.add("game-list");
+
+                        gamesData[gameKey].forEach(game => {
+                            const gameItem = document.createElement("li");
+                            gameItem.textContent = game;
+                            gameList.appendChild(gameItem);
+                        });
+
+                        cell.appendChild(gameList);
+                    }
                 }
 
                 row.appendChild(cell);
