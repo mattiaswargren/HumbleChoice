@@ -30,6 +30,7 @@
             text-align: center;
             border-bottom: 1px solid #e9ecef;
             font-size: 14px;
+            vertical-align: top; /* Align contents to the top of the cell */
         }
         th {
             background-color: #343a40;
@@ -40,7 +41,6 @@
         td {
             font-weight: 400;
             color: #495057;
-            position: relative;
             text-align: left;
         }
         .btn {
@@ -70,6 +70,10 @@
             border-radius: 4px;
             margin-bottom: 4px;
             padding: 4px;
+        }
+        .used-game { /* Style for used games (with a star) */
+            color: #d9534f; /* Red color to indicate the game is used */
+            font-weight: bold;
         }
         @media (max-width: 768px) {
             table, th, td {
@@ -121,63 +125,63 @@
         const tableBody = document.getElementById("linkTable");
 
         const gamesData = {
-            'december-2019': [],
-            'january-2020': [],
-            'february-2020': [],
-            'march-2020': [],
-            'april-2020': [],
-            'may-2020': [],
-            'june-2020': [],
-            'july-2020': [],
-            'august-2020': [],
-            'september-2020': [],
-            'october-2020': [],
-            'november-2020': [],
-            'december-2020': [],
-            'january-2021': [],
-            'february-2021': [],
-            'march-2021': [],
-            'april-2021': [],
-            'may-2021': [],
-            'june-2021': [],
-            'july-2021': [],
-            'august-2021': [],
-            'september-2021': [],
-            'october-2021': [],
-            'november-2021': [],
-            'december-2021': [],
-            'january-2022': [],
-            'february-2022': [],
-            'march-2022': [],
-            'april-2022': [],
-            'may-2022': [],
-            'june-2022': [],
-            'july-2022': [],
-            'august-2022': [],
-            'september-2022': [],
-            'october-2022': [],
-            'november-2022': [],
-            'december-2022': [],
-            'january-2023': [],
-            'february-2023': [],
-            'march-2023': [],
-            'april-2023': [],
-            'may-2023': [],
-            'june-2023': [],
-            'july-2023': [],
-            'august-2023': [],
-            'september-2023': [],
-            'october-2023': [],
-            'november-2023': [],
-            'december-2023': [],
-            'january-2024': ["Marvel's Midnight Suns Digital+ Edition", "Midnight Suns - Doctor Strange Defenders Skin", "Two Point Campus", "Aragami 2", "OTXO", "Roguebook", "The Red Lantern", "Hell Pie", "Twin Mirror"],
-            'february-2024': ["Life is Strange: True Colors", "Scorn", "Destroy All Humans 2! Reprobed", "Beacon Pines", "There is No Light: Enhanced Edition", "Children of Silentown", "Oaken", "Snowtopia: Ski Resort Builder"],
+            'december-2019': ["Shadow of the Tomb Raider *", "Blasphemous", "Ancestors Legacy *", "Phantom Doctrine", "Dead In Vinland", "Horizon Chase Turbo", "Dark Future: Blood Red States", "X-Morph: Defense", "Aegis Defenders", "Desert Child"],
+            'january-2020': ["Middle-earth™: Shadow of War™ *", "Graveyard Keeper *", "Two Point Hospital *", "DiRT Rally 2.0 + 3 DLCs", "Street Fighter V", "Bad North: Jotunn Edition *", "Trailmakers", "Unrailed!", "Whispers of a Machine", "Them's Fightin' Herds", "Mages of Mystralia", "GRIP + 1 DLC"],
+            'february-2020': ["Frostpunk + 1 DLC", "Pathfinder: Kingmaker - Enhanced Plus Edition", "Book of Demons", "CryoFall", "Okami HD", "Eliza", "SHENZHEN I/O *", "Project Warlock", "The Hex", "Warstone TD", "Underhero", "Night Call"],
+            'march-2020': ["My Friend Pedro", "Planet Coaster + 1 DLC", "F1 2019 Anniversary Edition", "Fell Seal: Arbiter's Mark", "Battle Chasers: Nightwar", "EXAPUNKS", "Turok", "Death's Gambit", "198X", "Niffelheim", "AI War 2", "Etherborn"],
+            'april-2020': ["HITMAN 2 *", "GRIS *", "This Is the Police 2", "Opus Magnum *", "MOLEK-SYNTEZ", "Raiden V: Director's Cut | 雷電 V Director's Cut | 雷電V:導演剪輯版", "Driftland: The Magic Revival", "Turok 2: Seeds of Evil", "Truberbrook / Trüberbrook", "The Bard's Tale IV: Director's Cut", "Shoppe Keep 2", "Capitalism 2"],
+            'may-2020': ["Jurassic World Evolution + 1 DLC", "XCOM® 2 + 2 DLC", "Rise of Industry", "Niche - a genetics survival game", "Warhammer 40,000: Gladius - Relics of War", "The Swords of Ditto: Mormo's Curse", "WARSAW", "Heave Ho", "MO:Astray", "NEOVERSE", "Chess Ultra", "Horace"],
+            'june-2020': ["Supraland", "GRID™ - Ultimate Edition", "Hellblade: Senua's Sacrifice", "The Messenger", "Barotrauma", "Felix The Reaper", "Men of War: Assault Squad 2 - Warchest Edition ", "Stygian: Reign of the Old Ones", "Remnants of Naezith", "Overload", "The Stillness of the Wind", "The King's Bird *"],
+            'july-2020': ["Age of Wonders: Planetfall - Deluxe Edition", "Void Bastards *", "Railway Empire", "Battlestar Galactica Deadlock", "Yuppie Psycho", "Beat Hazard 2", "Sigma Theory: Global Cold War", "Metal Unit", "Don't Escape: 4 Days to Survive", "Verlet Swing", "Basingstoke", "EARTHLOCK"],
+            'august-2020': ["Vampyr", "Hello Neighbor + Hello Neighbor Hide and Seek Collection *", "Wargroove", "Call of Cthulhu *", "Little Big Workshop", "Genesis Alpha One Deluxe Edition", "Automachef", "Through the Darkest of Times *", "American Fugitive", "The Coma 2: Vicious Sisters", "We Were Here Together", "A Case of Distrust"],
+            'september-2020': ["Golf With Your Friends + Caddypack DLC + OST *", "Generation Zero", "Forager *", "Vampire: The Masquerade - Coteries of New York", "Fun with Ragdolls: The Game", "Lethal League Blaze", "Strange Brigade", "Evoland Legendary Edition", "Yooka-Laylee and the Impossible Lair", "Catherine Classic", "The Occupation", "The Shapeshifting Detective"],
+            'october-2020': ["Tropico 6 - El Prez Edition", "Fae Tactics", "Sunless Bundle (Sunless Skies + Sunless Sea)", "Iron Danger", "Autonauts", "Shadows: Awakening", "Fantasy Blacksmith", "The Suicide of Rachel Foster *", "GOAT OF DUTY", "The Uncertain: Last Quiet Day", "Basement", "Lightmatter"],
+            'november-2020': ["Darksiders III", "Yakuza Kiwami 2", "Imperator: Rome Deluxe Edition", "Crying Suns", "Darksburg", "Little Misfortune *", "Smile For Me", "Darkwood", "TSIOQUE", "Rover Mechanic Simulator", "Youropa", "Townsmen - A Kingdom Rebuilt"],
+            'december-2020': ["Overcooked! 2 + Too Many Cooks + Surf 'n' Turf Pack", "Children of Morta", "One Step From Eden", "The Beast Inside", "Indivisible", "Shining Resonance Refrain", "Zwei: The Arges Adventure", "Zwei: The Ilvard Insurrection", "Tabletop Playground *", "The Haunted Island, a Frog Detective Game", "Frog Detective 2: The Case of the Invisible Wizard", "Still There", "Struggling", "Path of Giants"],
+            'january-2021': ["PC Building Simulator", "Ancestors: The Humankind Odyssey *", "Pathologic 2", "Warhammer: Chaosbane", "Total Tank Simulator", "SONG OF HORROR COMPLETE EDITION", "Not Tonight", "Vampire: The Masquerade - Shadows of New York", "Tales of the Neon Sea", "Minoria", "Deleveled", "The Ambassador: Fractured Tim"],
+            'february-2021': ["Outward + The Soroboreans and Outward Soundtrack", "Valkyria Chronicles 4 Complete Edition", "Endless Space® 2 - Digital Deluxe Edition", "Moving Out", "Trine 4: The Nightmare Prince *", "The Wild Eight *", "Train Station Renovation", "Valfaris", "Werewolf: The Apocalypse Heart of the Forest", "Lovecraft's Untold Stories", "Iris and the Giant", "Boomerang Fu"],
+            'march-2021': ["Control Standard Edition", "XCOM: Chimera Squad", "ELEX", "Kingdom Two Crowns", "WWE 2K BATTLEGROUNDS", "Hotshot Racing", "Peaky Blinders: Mastermind", "Cyber Hook", "Pesterquest", "Wildfire", "Boreal Blade", "Ageless"],
+            'april-2021': ["Sniper Ghost Warrior Contracts", "F1® 2020", "Shenmue III", "Main Assembly", "Rock of Ages 3: Make & Break", "Remothered: Broken Porcelain", "In Other Waters", "Aven Colony", "SIMULACRA + SIMULACRA 2", "Colt Canyon", "Skully", "Popup Dungeon"],
+            'may-2021': ["Metro Exodus", "Darksiders Genesis", "Hellpoint", "Cook, Serve, Delicious! 3", "Levelhead", "Fury Unleashed", "Size Matters", "Morkredd", "Relicta", "Retimed", "Family Man", "Vane"],
+            'june-2021': ["Sid Meier’s Civilization® VI Platinum Edition *", "Secret Neighbor *", "Stubbs the Zombie in Rebel Without a Pulse", "Worms Rumble + Legends Pack DLC", "Going Under", "Panzer Paladin", "Milky Way Prince - The Vampire Star", "DESOLATE", "Ikenfell *", "Paw Paw Paw", "Effie", "Disjunction"],
+            'july-2021': ["Yakuza 3 Remastered", "The Surge 2", "DIRT 5", "Hammerting", "Nimbatus - The Space Drone Constructor", "Paradise Killer", "Kill It With Fire", "Bee Simulator", "ELDERBORN", "S.W.I.N.E. HD Remaster", "Deadly Days", "ADOM (Ancient Domains Of Myste"],
+            'august-2021': ["Bloodstained: Ritual of the Night", "Last Oasis", "Superliminal *", "Out of Space", "We Need to Go Deeper", "Carto *", "As Far As The Eye", "Cepheus Protocol", "Drake Hollow", "Nowhere Prophet", "Blue Fire", "ENCODYA"],
+            'september-2021': ["PGA TOUR 2K21", "Neon Abyss", "Not For Broadcast *", "Röki *", "Narita Boy", "West of Dead", "Atomicrops", "Heaven's Vault", "Swag and Sorcery", "Fort Triumph", "Orwell: Ignorance is Strength *", "FRAMED Collection"],
+            'october-2021': ["Katana ZERO", "Amnesia: Rebirth *", "John Wick Hex", "112 Operator", "Guts and Glory", "Ring of Pain", "GARAGE: Bad Trip", "The Textorcist: The Story of Ray Bibbia", "Tools Up", "Hiveswap Friendsim", "Black Future '88", "Syberia 3"],
+            'november-2021': ["Due Process", "House Flipper *", "Project Wingman", "Wingspan", "BPM: BULLETS PER MINUTE", "Turnip Boy Commits Tax Evasion", "Juno: New Origins", "Timelie *", "WRATH: Aeon of Ruin", "Mbius Front '83"],
+            'december-2021': ["Maneater", "MORDHAU", "Endzone - A World Apart", "Beyond The Wire", "Partisans 1941", "The Survivalists", "Lacuna - A Sci-Fi Noir Adventure", "8 Doors", "Greak: Memories of Azur", "Fling to the Finish", "TOHU", "Voidigo"],
+            'january-2022': ["Mafia: Definitive Edition *", "Iron Harvest", "Project Winter", "Rebel Cops", "Rustler", "The Henry Stickmin Collection", "Farmer's Dynasty *", "Between the Stars", "Retrowave", "Midnight Protocol"],
+            'february-2022': ["Borderlands 3", "Borderlands 3: Director's Cut", "Black Book", "Per Aspera", "Just Die Already", "Before We Leave", "Paradise Lost", "Everhood", "Calico"],
+            'march-2022': ["Desperados III *", "Mass Effect Legendary Edition *", "Nickelodeon All-Star Brawl *", "The Dark Pictures Anthology: Man Of Medan", "Red Solstice 2: Survivors", "Nebuchadnezzar", "Police Stories", "Evan's Remains"],
+            'april-2022': ["Ghostrunner *", "Destroy All Humans!", "Monster Sanctuary", "Killsquad", "Rogue Heroes: Ruins of Tasos", "Suzerain", "Chicken Police", "NARUTO TO BORUTO: SHINOBI STRIKE"],
+            'may-2022': ["Planet Zoo", "SpongeBob SquarePants: Battle for Bikini Bottom - Rehydrated", "Command & Conquer Remastered Collection", "Spellcaster University", "Surviving the Aftermath", "If Found...", "Genesis Noir", "Embr"],
+            'june-2022': ["Star Wars Squadrons", "Phoenix Point: Year One Edition", "Call of the Sea *", "Gamedec - Definitive Edition", "Pumpkin Jack", "Siege Survival: Gloria Victis", "I am Fish", "SUPERHOT: MIND CONTROL DELETE"],
+            'july-2022': ["Deep Rock Galactic *", "Necromunda: Hired Gun", "Legion TD 2 - Multiplayer Tower Defense.", "Legend of Keepers", "Lawn Mowing Simulator", "Banners of Ruin", "Yes, Your Grace", "ATOM RPG Trudograd"],
+            'august-2022': ["The Ascent", "HOT WHEELS UNLEASHED ™ *", "A Plague Tale: Innocence *", "Gas Station Simulator", "In Sound Mind", "Mind Scanners", "Emily is Away <3", "Omno"],
+            'september-2022': ["Crusader Kings III *", "Just Cause 4: Complete Edition", "The Dungeon Of Naheulbeuk: The Amulet Of Chaos", "Forgive Me Father", "Crown Trick", "Descenders", "INDUSTRIA", "Shapez + Puzzle DLC"],
+            'october-2022': ["DEATHLOOP *", "Monster Train (First Class - Collectors Edition)", "The Dark Pictures Anthology: Little Hope", "Disciples: Liberation", "Maid of Sker", "Epic Chef", "Railroad Corporation", "Golf Gang"],
+            'november-2022': ["Hell Let Loose", "Kingdoms of Amalur: Re-Reckoning - FATE Edition", "Shadow Tactics: Aiko's Choice *", "Roboquest", "Eldest Souls", "UnMetal", "Raji: An Ancient Epic", "Morbid: The Seven Acolytes"],
+            'december-2022': ["Wasteland 3", "GreedFall", "First Class Trouble", "Backbone *", "TOEM *", "Where the Water Tastes Like Wine", "Blade Assault", "Super Magbot"],
+            'january-2023': ["DOOM® Eternal *", "Tribes of Midgard", "Encased: A Sci-Fi Post-Apocalyptic RPG", "OlliOlli World - Rad Edition", "Grow: Song of the Evertree", "Conan Chop Chop", "Hokko Life", "The Serpent Rogue"],
+            'february-2023': ["Pathfinder: Wrath of the Righteous*", "Fallout 76 + Fallout 1*", "Thronebreaker: The Witcher Tales", "Othercide", "Shady Part of Me", "Scourgebringer*", "Fobia - St. Dinfna Hotel", "Five Dates"],
+            'march-2023': ["Biomutant", "Jurassic World Evolution 2", "Edge Of Eternity", "Hero's Hour", "Rogue Lords", "Demon Turf", "Golden Light", "Monster Crown"],
+            'april-2023': ["DEATH STRANDING DIRECTOR'S CUT *", "Aliens: Fireteam Elite", "Rollerdrome", "Life is Strange 2: Complete Season", "The Life and Suffering of Sir Brante", "Monster Prom 2: Monster Camp", "Revita", "Founders' Fortune"],
+            'may-2023': ["Warhammer 40,000: Chaos Gate - Daemonhunters", "Spiritfarer: Farewell Edition *", "Bendy and the Dark Revival", "Operation: Tango", "Windjammers 2", "Builder Simulator", "Behind the Frame: The Finest Scenery *", "The Invisible Hand"],
+            'june-2023': ["Ghostwire Tokyo", "Remnant: From the Ashes - Complete Edition", "Curse of the Dead Gods", "Honey I Joined a Cult", "Eternal Threads", "GRIME", "Turbo Golf Racing", "Meeple Station"],
+            'july-2023': ["The Outer Worlds: Spacer's Choice Edition", "Temtem", "Yakuza 4 Remastered", "Roadwarden", "Kraken Academy!!", "Merchant of the Skies", "Ozymandias: Bronze Age Empire Sim", "Shotgun King: The Final Checkma"],
+            'august-2023': ["Disco Elysium - The Final Cut", "Chivalry 2 - Epic Edition", "Road 96*", "Trek to Yomi", "Arcade Paradise", "SuchArt: Genius Artist Simulator", "Tin Can", "Hot Brass"],
+            'september-2023': ["Tiny Tina's Wonderlands Chaotic Great Edition", "Deceive Inc.", "The Forgotten City", "Aces & Adventures", "Patch Quest", "Foretales", "Who Pressed Mute on Uncle Marcus*", "Autonauts vs PirateBots"],
+            'october-2023': ["The Quarry Deluxe Edition", "Metal Hellsinger *", "Dark Pictures Anthology: House of Ashes *", "Rebel Inc: Escalation *", "Spirit of the Island", "Lords and Villeins", "A Juggler's Tale *", "Mr. Prepper"],
+            'november-2023': ["Hardspace: Shipbreaker", "WWE 2K23", "Unpacking", "Friends vs Friends", "Prodeus", "The Legend of Tianding", "SCP: Secret Files", "Souldiers"],
+            'december-2023': ["Expeditions: Rome", "Midnight Fight Express", "ELEX II", "Nobody Saves the World", "The Gunk", "The Pale Beyond", "Last Call BBS", "From Space"],
+            'january-2024': ["Marvel's Midnight Suns Digital+ Edition", "Midnight Suns - Doctor Strange Defenders Skin", "Two Point Campus *", "Aragami 2", "OTXO", "Roguebook", "The Red Lantern", "Hell Pie", "Twin Mirror"],
+            'february-2024': ["Life is Strange: True Colors *", "Scorn", "Destroy All Humans 2! Reprobed", "Beacon Pines", "There is No Light: Enhanced Edition", "Children of Silentown", "Oaken", "Snowtopia: Ski Resort Builder"],
             'march-2024': ["Warhammer Age of Sigmar: Realms of Ruin – Ultimate Edition", "Nioh 2 - The Complete Edition", "Saints Row", "Citizen Sleeper", "Black Skylands", "Soulstice", "Afterimage", "Destroyer: The U-Boat Hunter"],
             'april-2024': ["Victoria 3", "The Callisto Protocol", "HUMANKIND Definitive Edition", "Fashion Police Squad", "Terraformers", "Symphony of War: The Nephilim Saga", "Coromon", "The Excavation of Hob's Barrow"],
             'may-2024': ["Yakuza: Like a Dragon", "Hi-Fi RUSH", "Steelrising", "Loddlenaut", "King Of The Castle", "Bravery and Greed", "Amanda the Adventurer", "Mediterranea Inferno"],
             'june-2024': ["Risk of Rain 2", "Knights of Honor II: Sovereign", "LEGO® 2K Drive Awesome Edition", "Warhammer 40,000: Battlesector", "Miasma Chronicles", "Stray Gods: The Roleplaying Musical", "A Guidebook of Babel", "Empyrion - Galactic Survival"],
-            'july-2024': ["A Plague Tale: Requiem", "Ghostrunner 2", "Starship Troopers: Terran Command", "Sticky Business", "Zoeti", "Figment 2: Creed Valley", "Heretic's Fork", "HYPERVIOLENT"],
-            'august-2024': ["Sifu", "High On Life", "Gotham Knights", "BLACKTAIL", "Astral Ascent", "Diluvian Ultra", "Universe For Sale", "This Means Warp"],
+            'july-2024': ["A Plague Tale: Requiem *", "Ghostrunner 2", "Starship Troopers: Terran Command", "Sticky Business", "Zoeti", "Figment 2: Creed Valley", "Heretic's Fork", "HYPERVIOLENT"],
+            'august-2024': ["Sifu*", "High On Life", "Gotham Knights", "BLACKTAIL", "Astral Ascent", "Diluvian Ultra", "Universe For Sale", "This Means Warp"],
             'september-2024': ["Marvel's Guardians of the Galaxy", "Stranded: Alien Dawn", "Coral Island", "SpongeBob SquarePants: The Cosmic Shake", "Lost Eidolons", "Astrea: Six-Sided Oracles", "InfraSpace", "You Suck at Parking - Complete Edition", "Rue Valley - Alpha Playtest"],
             'october-2024': ["REMNANT II", "Persona 5 Strikers", "Jusant", "Dome Keeper", "Jack Move", "Station to Station", "Remnant Records", "McPixel 3"],
             'november-2024': [],
@@ -216,7 +220,15 @@
 
                         gamesData[gameKey].forEach(game => {
                             const gameItem = document.createElement("li");
-                            gameItem.textContent = game;
+                            
+                            if (game.includes('*')) {
+                                // Apply special styling to games that contain a star (*)
+                                gameItem.classList.add('used-game');
+                                gameItem.textContent = game.replace('*', '').trim(); // Remove the star from the display
+                            } else {
+                                gameItem.textContent = game;
+                            }
+                            
                             gameList.appendChild(gameItem);
                         });
 
